@@ -6,5 +6,5 @@ import AppTwo from './AppTwo'
 import Table from './table';
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<AppTwo />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
