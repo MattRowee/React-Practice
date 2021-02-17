@@ -10,7 +10,8 @@ class App extends Component {
       { name: 'Manu', age: 29 },
       { name: 'Stephanie', age: 26 }
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   };
 
   switchNameHandler = (newName) => {
@@ -34,6 +35,14 @@ class App extends Component {
       ]
     });
   }
+// fat arrow, this always returns to this class
+// showPersons: !doesShow  : toggles the state. 
+// if does show is true, set false, visaversa
+// merges new data with state
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  }
 
   render() {
     const style = {
@@ -42,16 +51,15 @@ class App extends Component {
       border: "1px solid blue",
       padding: "8px",
       cursor: "pointer",
-      borderRadius: "3px",
-      hover: {backgroundColor: "blue", fontColor: "white", border: "1px solid white"}
-    }
-    return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
-        <button 
-          style={style}
-          onClick={() => this.switchNameHandler("Matthew")}>Switch Name</button>
+      borderRadius: "3px"
+    };
+
+    let persons = null;
+    // This was originally in the JSX as a ? terniary statement, but 
+    // was removed to keep the JSX clean as.
+if(this.state.showPersons){
+  persons = (
+    <div>
         <Person
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
@@ -68,9 +76,24 @@ class App extends Component {
           name={this.state.persons[2].name}
           age={this.state.persons[2].age}
         />
+        </div> 
+  )
+}
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button 
+          className="primeButton"
+          style={style}
+          onClick={this.togglePersonsHandler}>Toggle List</button>
+          {/* terniary expression. a property in state such as showPersons 
+          can become an if statement that defaults to null with 2 lines of code */}
+        {persons}
+        {/* end of terniary statement */}
       </div>
     );
-    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
