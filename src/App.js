@@ -9,6 +9,7 @@ const app = props => {
       {name: 'Manu', age: 29},
       {name: 'Mark', age: 26}
     ],
+    otherState: "this is other state"
   });
     
 const [otherState, setOtherState] = useState("Some other value");
