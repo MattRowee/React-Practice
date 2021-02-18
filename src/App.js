@@ -6,9 +6,9 @@ import Person from './Person/Person';
 class App extends Component {
   state = {
     persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manu', age: 29 },
-      { name: 'Stephanie', age: 26 }
+      { id: "w34terg", name: 'Max', age: 28 },
+      { id: "yutnfth", name: 'Manu', age: 29 },
+      { id: "ktymnfs", name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
     showPersons: false
@@ -26,22 +26,45 @@ class App extends Component {
     });
   };
 
-  nameChangedHandler = (event)=> {
-    this.setState({
-      persons: [
-        { name: 'Max', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
+  nameChangedHandler = (event, id)=> {
+    // default JS method find()
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
     });
+
+    const person ={
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    
+    this.setState({persons: persons});
   }
+
 // fat arrow, this always returns to this class
 // showPersons: !doesShow  : toggles the state. 
 // if does show is true, set false, visaversa
 // merges new data with state
+
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons: !doesShow});
+  }
+  
+  deletePersonHandler = (personIndex) => {
+    // the old way. creates a new a copied array
+    // rather than directly manipulating state
+    // however, we will use a spread operator to 
+    // populate a newly created array
+    // always update state in an immutable fasion
+
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
   }
 
   render() {
@@ -60,22 +83,17 @@ class App extends Component {
 if(this.state.showPersons){
   persons = (
     <div>
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, "Max")}
-          changed={this.nameChangedHandler}
-        >
-          My Hobbies: Racing
-        </Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-        />
+      {/* converting a JS object into valid JSX 
+        and it replaved on the <Person> components we were importing*/}
+      {this.state.persons.map((person, index)=> {
+        return <Person 
+        click={() => this.deletePersonHandler(index)}
+        name={person.name}
+        age={person.age} 
+        key={person.id}
+        changed={(event => this.nameChangedHandler(event, person.id))}
+          />
+      })}
         </div> 
   )
 }
