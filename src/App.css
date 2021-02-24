@@ -1,13 +1,19 @@
 .App {
   text-align: center;
 }
-/* .primeButton:hover{
-  background: blue !important;
-  border: 1px solid silver;
-  color: aliceblue;
-  font-weight: bold;
-  transition: .3s;
-} */
+.button{
+      background-color: green;
+      font: inherit;
+      border: 1px solid blue;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 3px;
+}
+.button:hover{
+    background: lightgreen;
+    color: black
+}
+
 
 .red{
  color: red;
