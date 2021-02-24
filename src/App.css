@@ -1,10 +1,18 @@
 .App {
   text-align: center;
 }
-.primeButton:hover{
+/* .primeButton:hover{
   background: blue !important;
   border: 1px solid silver;
   color: aliceblue;
   font-weight: bold;
   transition: .3s;
+} */
+
+.red{
+ color: red;
+}
+
+.bold{
+  font-weight: bold;
 }
