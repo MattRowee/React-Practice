@@ -1,21 +1,9 @@
 
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
-import styled from 'styled-components';
 
-const StyledButton = styled.button`
-      background-color: ${props => props.alt ? 'red':'green'};
-      font: inherit;
-      border: 1px solid blue;
-      padding: 8px;
-      cursor: pointer;
-      border-radius: 3px;
-      
-      &:hover {
-        background: lightgreen;
-        color: black
-`
+
 class App extends Component {
   state = {
     persons: [
@@ -27,17 +15,15 @@ class App extends Component {
     showPersons: false
   };
 
-  switchNameHandler = (newName) => {
-    // console.log('Was clicked!');
-    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
-    this.setState({
-      persons: [
-        { name: newName, age: 28 },
-        { name: 'Manu', age: 29 },
-        { name: 'Stephanie', age: 27 }
-      ]
-    });
-  };
+  // switchNameHandler = (newName) => {
+  //   this.setState({
+  //     persons: [
+  //       { name: newName, age: 28 },
+  //       { name: 'Manu', age: 29 },
+  //       { name: 'Stephanie', age: 27 }
+  //     ]
+  //   });
+  // };
 
   nameChangedHandler = (event, id)=> {
     // default JS method find()
@@ -50,17 +36,15 @@ class App extends Component {
     };
 
     person.name = event.target.value;
-
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-    
     this.setState({persons: persons});
   }
 
-// fat arrow, this always returns to this class
-// showPersons: !doesShow  : toggles the state. 
-// if does show is true, set false, visaversa
-// merges new data with state
+    // fat arrow, this always returns to this class
+    // showPersons: !doesShow  : toggles the state. 
+    // if does show is true, set false, visaversa
+    // merges new data with state
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
@@ -73,7 +57,6 @@ class App extends Component {
     // however, we will use a spread operator to 
     // populate a newly created array
     // always update state in an immutable fasion
-
     // const persons = this.state.persons.slice();
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
@@ -81,67 +64,44 @@ class App extends Component {
   }
 
   render() {
-    // const style = {
-    //   backgroundColor: "white",
-    //   font: "inherit",
-    //   border: "1px solid blue",
-    //   padding: "8px",
-    //   cursor: "pointer",
-    //   borderRadius: "3px",
-    //   ":hover": {
-    //     background: 'lightgreen',
-    //     color: 'black',
-    //   }
-    // };
-
     let persons = null;
-    // This was originally in the JSX as a ? terniary statement, but 
-    // was removed to keep the JSX clean as.
-if(this.state.showPersons){
-  persons = (
-    <div>
-      {/* converting a JS object into valid JSX 
-        and it replaved on the <Person> components we were importing*/}
-      {this.state.persons.map((person, index)=> {
-        return <Person 
-        click={() => this.deletePersonHandler(index)}
-        name={person.name}
-        age={person.age} 
-        key={person.id}
-        changed={(event => this.nameChangedHandler(event, person.id))}
-          />
-      })}
-        </div> 
-    );
-    // style.backgroundColor = "red";
-    // style[':hover'] ={
-    //   background: 'salmon',
-    //   color: 'black',
-    // }
-    // style.border = "1px solid silver"; 
-    // style.color = "aliceblue";
-    // style.fontWeight = "bold";
-    }
+    let btnClass = '';
+    
+      if(this.state.showPersons){
+        persons = (
+          <div>
+            {this.state.persons.map((person, index)=> {
+              return (
+                <Person 
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age} 
+                  key={person.id}
+                  changed={(event => this.nameChangedHandler(event, person.id))}
+                    />
+                );
+              })}
+            </div> 
+          );
+          btnClass = classes.Red;
+          }
 
-    let classes = [];
+    const assignedClasses = [];
      if(this.state.persons.length <= 2){
-       classes.push('red');
+       assignedClasses.push(classes.red);
      }
      if(this.state.persons.length <= 1) {
-       classes.push('bold');
+       assignedClasses.push(classes.bold);
      }
     return (
-      <div className="App">
+      <div className={classes.App}>
         <h1>Hi, I'm a React App</h1>
-        <p className={classes.join(" ")}>This is really working!</p>
-        <StyledButton 
-          alt={this.state.showPersons}
+        <p className={assignedClasses.join(" ")}>This is really working!</p>
+        <button 
+          className={btnClass} 
           onClick={this.togglePersonsHandler}>
-            Toggle List</StyledButton>
-          {/* terniary expression. a property in state such as showPersons 
-          can become an if statement that defaults to null with 2 lines of code */}
-        {persons}
-        {/* end of terniary statement */}
+            Toggle List</button>         
+          {persons}
       </div>
     );
   }
